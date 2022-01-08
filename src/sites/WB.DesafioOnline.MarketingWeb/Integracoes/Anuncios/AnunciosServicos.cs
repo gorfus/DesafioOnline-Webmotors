@@ -10,14 +10,14 @@ namespace WB.DesafioOnline.MarketingWeb.Integracoes.Anuncios
 {
     public interface IAnunciosServicos
     {
-        Task<IEnumerable<Anuncio>> Todos();
-        Task<IEnumerable<Anuncio>> PorMarca(int marcaId);
-        Task<IEnumerable<Anuncio>> PorModelo(int modeloId);
-        Task<IEnumerable<Anuncio>> PorVersao();
+        Task<IEnumerable<AnuncioDTO>> Todos();
+        Task<IEnumerable<AnuncioDTO>> PorMarca(int marcaId);
+        Task<IEnumerable<AnuncioDTO>> PorModelo(int modeloId);
+        Task<IEnumerable<AnuncioDTO>> PorVersao();
 
-        void Adicionar(Anuncio anuncio);
-        void Atualizar(Anuncio anuncio);
-        void Remover(int anuncioId);
+        Task Cadastrar(AnuncioDTO anuncio);
+        Task Atualizar(AnuncioDTO anuncio);
+        Task Remover(int anuncioId);
     }
 
     public class AnunciosServicos : IAnunciosServicos
@@ -31,41 +31,47 @@ namespace WB.DesafioOnline.MarketingWeb.Integracoes.Anuncios
             _httpClient = _clientFactory.CreateClient("anunciosapi");
         }
 
-        public void Adicionar(Anuncio anuncio)
+        public async Task Atualizar(AnuncioDTO anuncio)
         {
             throw new NotImplementedException();
         }
 
-        public void Atualizar(Anuncio anuncio)
+        public async Task Cadastrar(AnuncioDTO anuncio)
         {
             throw new NotImplementedException();
         }
 
-        public void Remover(int anuncioId)
+        public async Task Remover(int anuncioId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Anuncio>> PorMarca(int marcaId)
+
+        public async Task<IEnumerable<AnuncioDTO>> PorMarca(int marcaId)
         {
-            throw new NotImplementedException();
+            var response = await _httpClient.GetAsync("Make");
+            return await JsonSerializer.DeserializeAsync<IEnumerable<AnuncioDTO>>(await response.Content.ReadAsStreamAsync());
         }
 
-        public Task<IEnumerable<Anuncio>> PorModelo(int modeloId)
+        public async Task<IEnumerable<AnuncioDTO>> PorModelo(int modeloId)
         {
-            throw new NotImplementedException();
+            var response = await _httpClient.GetAsync("Make");
+            return await JsonSerializer.DeserializeAsync<IEnumerable<AnuncioDTO>>(await response.Content.ReadAsStreamAsync());
         }
 
-        public Task<IEnumerable<Anuncio>> PorVersao()
+        public async Task<IEnumerable<AnuncioDTO>> PorVersao()
         {
-            throw new NotImplementedException();
+            var response = await _httpClient.GetAsync("Make");
+            return await JsonSerializer.DeserializeAsync<IEnumerable<AnuncioDTO>>(await response.Content.ReadAsStreamAsync());
         }
 
-        public async Task<IEnumerable<Anuncio>> Todos()
+      
+
+        public async Task<IEnumerable<AnuncioDTO>> Todos()
         {
-            //var response = await _httpClient.GetAsync($"");
-            //return await JsonSerializer.DeserializeAsync<IEnumerable<Anuncio>>(await response.Content.ReadAsStreamAsync());
-            throw new NotImplementedException();
+            var response = await _httpClient.GetAsync("Make");
+            return await JsonSerializer.DeserializeAsync<IEnumerable<AnuncioDTO>>(await response.Content.ReadAsStreamAsync());
         }
+
     }
 }

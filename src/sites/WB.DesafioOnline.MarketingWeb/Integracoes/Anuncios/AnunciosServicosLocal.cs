@@ -10,7 +10,7 @@ namespace WB.DesafioOnline.MarketingWeb.Integracoes.Anuncios
 {
     public interface IAnunciosServicosLocal
     {
-        Task Adicionar(AnuncioDTO anuncio);
+        Task Cadastrar(AnuncioDTO anuncio);
         Task Atualizar(Anuncio anuncio);
         Task Remover(Anuncio anuncio);
 
@@ -32,7 +32,7 @@ namespace WB.DesafioOnline.MarketingWeb.Integracoes.Anuncios
 
         public async Task Adicionar(AnuncioDTO anuncio)
         {
-            _anuncioRepositorio.Adicionar(new Anuncio (anuncio.Marca, 
+            _anuncioRepositorio.Cadastrar(new Anuncio (anuncio.Marca, 
                                                        anuncio.Modelo, 
                                                        anuncio.Versao, 
                                                        anuncio.Ano,

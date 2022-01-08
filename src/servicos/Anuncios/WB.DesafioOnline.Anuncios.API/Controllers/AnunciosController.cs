@@ -21,7 +21,14 @@ namespace WB.DesafioOnline.Anuncios.API.Controllers
         }
 
         [HttpPost("pedido")]
-        public async Task<IActionResult> AdicionarPedido(CadastrarAnuncioCommand pedido)
+        public async Task<IActionResult> Cadastrar(CadastrarAnuncioCommand pedido)
+        {
+            return Ok(await _mediator.EnviarComando(pedido));
+        }
+
+
+        [HttpPost("pedido")]
+        public async Task<IActionResult> Atualizar(AtualizarAnuncioCommand pedido)
         {
             return Ok(await _mediator.EnviarComando(pedido));
         }

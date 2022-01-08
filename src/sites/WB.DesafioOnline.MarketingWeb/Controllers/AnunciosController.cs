@@ -9,17 +9,17 @@ namespace WB.DesafioOnline.MarketingWeb.Controllers
 {
     public class AnunciosController : Controller
     {
-        private readonly IAnunciosServicosLocal _anunciosServicosLocal;
+        private readonly IAnunciosServicos _anunciosServicos;
 
-        public AnunciosController(IAnunciosServicosLocal anunciosServicosLocal)
+        public AnunciosController(IAnunciosServicos anunciosServicos)
         {
-            _anunciosServicosLocal = anunciosServicosLocal;
+            _anunciosServicos = anunciosServicos;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var anuncios = await _anunciosServicosLocal.Todos();
+            var anuncios = await _anunciosServicos.Todos();
             return View(anuncios);
         }
 
@@ -34,7 +34,7 @@ namespace WB.DesafioOnline.MarketingWeb.Controllers
         {
             try
             {
-                await _anunciosServicosLocal.Adicionar(anuncio);
+                await _anunciosServicos.Cadastrar(anuncio);
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
@@ -64,7 +64,7 @@ namespace WB.DesafioOnline.MarketingWeb.Controllers
                 throw new Exception("Necesário enviar o id do anuncio para exclusão");
 
             var anuncio = await _anunciosServicosLocal.PorId(anuncioId);
-            _anunciosServicosLocal.Remover(anuncio);
+            await _anunciosServicosLocal.Remover(anuncio);
 
             return View("Index");
         }
