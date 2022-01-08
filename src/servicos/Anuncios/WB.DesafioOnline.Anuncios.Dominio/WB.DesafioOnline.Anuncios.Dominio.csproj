@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\WB.DesafioOnline.Anuncios.Core\WB.DesafioOnline.Anuncios.Core.csproj" />
+  </ItemGroup>
+
+</Project>
