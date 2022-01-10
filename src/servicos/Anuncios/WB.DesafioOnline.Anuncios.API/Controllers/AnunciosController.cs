@@ -45,13 +45,13 @@ namespace WB.DesafioOnline.Anuncios.API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Atualizar(CadastrarAnuncioCommand request)
+        public async Task<IActionResult> Atualizar(AtualizarAnuncioCommand request)
         {
             return Ok(await _mediator.EnviarComando(request));
         }
 
         [HttpDelete("{anuncioId}")]
-        public async Task<IActionResult> Remover(CadastrarAnuncioCommand request)
+        public async Task<IActionResult> Deletar(DeletarAnuncioCommand request)
         {
             return Ok(await _mediator.EnviarComando(request));
         }
@@ -61,6 +61,18 @@ namespace WB.DesafioOnline.Anuncios.API.Controllers
         public async Task<IActionResult> PorId(int anuncioId)
         {
             return Ok(await _anuncioRepositorio.PorId(anuncioId));
+        }
+
+        [HttpPut("Ativar/{anuncioId}")]
+        public async Task<IActionResult> Ativar(AtivarAnuncioCommand request)
+        {
+            return Ok(await _mediator.EnviarComando(request));
+        }
+
+        [HttpPut("Destivar/{anuncioId}")]
+        public async Task<IActionResult> Desativar(DesativarAnuncioCommand request)
+        {
+            return Ok(await _mediator.EnviarComando(request));
         }
 
         [HttpGet]

@@ -60,18 +60,18 @@ namespace WB.DesafioOnline.MarketingWeb.Controllers
             {
                 throw;
             }
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Excluir(int anuncioId)
+        [HttpGet]
+        public async Task<IActionResult> Deletar(int anuncioId)
         {
             if (anuncioId == 0)
                 throw new Exception("Necesário enviar o id do anuncio para exclusão");
 
-            await _anunciosServicos.Remover(anuncioId);
+            await _anunciosServicos.Deletar(anuncioId);
 
-            return View("Index");
+            return RedirectToAction("Index");
         }
     }
 }

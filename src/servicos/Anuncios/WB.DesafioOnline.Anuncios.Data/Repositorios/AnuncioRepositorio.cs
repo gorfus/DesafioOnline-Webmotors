@@ -32,7 +32,7 @@ namespace WB.DesafioOnline.Anuncios.Data.Repositorios
             _context.Anuncios.Update(anuncio);
         }
 
-        public void Remover(Anuncio anuncio)
+        public void Deletar(Anuncio anuncio)
         {
             _context.Anuncios.Remove(anuncio);
         }

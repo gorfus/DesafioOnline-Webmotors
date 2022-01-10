@@ -19,7 +19,7 @@ namespace WB.DesafioOnline.MarketingWeb.Integracoes.Anuncios
 
         Task<ResponseResult> Cadastrar(AnuncioDTO anuncio);
         Task<ResponseResult> Atualizar(AnuncioDTO anuncio);
-        Task<ResponseResult> Remover(int anuncioId);
+        Task<ResponseResult> Deletar(int anuncioId);
     }
 
     public class AnunciosServicos : IAnunciosServicos
@@ -64,7 +64,7 @@ namespace WB.DesafioOnline.MarketingWeb.Integracoes.Anuncios
                 Message = content
             };
         }
-        public async Task<ResponseResult> Remover(int anuncioId)
+        public async Task<ResponseResult> Deletar(int anuncioId)
         {
             var response = await _httpClient.DeleteAsync($"{anuncioId}");
             var content = await response.Content.ReadAsStringAsync();

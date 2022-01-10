@@ -11,7 +11,7 @@ namespace WB.DesafioOnline.Anuncios.Dominio
 
         void Cadastrar(Anuncio anuncio);
         void Atualizar(Anuncio anuncio);
-        void Remover(Anuncio anuncio);
+        void Deletar(Anuncio anuncio);
 
         Task<Anuncio> PorId(int anuncioId);
         Task<IEnumerable<Anuncio>> Todos();

@@ -4,8 +4,9 @@ using WB.DesafioOnline.Anuncios.Core;
 
 namespace WB.DesafioOnline.Anuncios.Servicos.Commands
 {
-    public class CadastrarAnuncioCommand : Command
+    public class AtualizarAnuncioCommand : Command
     {
+        public int AnuncioId { get; set; }
         public string Marca { get; set; }
         public string Modelo { get; set; }
         public string Versao { get; set; }
@@ -15,17 +16,22 @@ namespace WB.DesafioOnline.Anuncios.Servicos.Commands
 
         public override bool EhValido()
         {
-            ValidationResult = new CadastrarAnuncioCommandValidation().Validate(this);
+            ValidationResult = new AtualizarAnuncioCommandValidation().Validate(this);
             return ValidationResult.IsValid;
         }
 
-        public class CadastrarAnuncioCommandValidation : AbstractValidator<CadastrarAnuncioCommand>
+        public class AtualizarAnuncioCommandValidation : AbstractValidator<AtualizarAnuncioCommand>
         {
-            public CadastrarAnuncioCommandValidation()
+            public AtualizarAnuncioCommandValidation()
             {
+                RuleFor(c => c.AnuncioId)
+                   .NotEqual(0)
+                   .NotNull()
+                   .WithMessage("Id inválido");
+
                 RuleFor(c => c.Marca)
-                    .NotNull()
-                    .WithMessage("o campo Marca é requerido.");
+                   .NotNull()
+                   .WithMessage("o campo Marca é requerido.");
 
                 RuleFor(c => c.Modelo)
                   .NotNull()
@@ -37,7 +43,7 @@ namespace WB.DesafioOnline.Anuncios.Servicos.Commands
 
                 RuleFor(c => c.Ano)
                  .GreaterThan(1886)
-                 .LessThan(DateTime.Now.Year - 1)
+                 .LessThan(DateTime.Now.Year -1)
                  .WithMessage("Ano inválido {0} {1}.");
 
                 RuleFor(c => c.Quilometragem)

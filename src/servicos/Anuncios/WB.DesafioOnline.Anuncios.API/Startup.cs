@@ -34,22 +34,26 @@ namespace WB.DesafioOnline.Anuncios.API
         public void ConfigureServices(IServiceCollection services)
         {
             #region custom
-            services.AddDbContext<AnunciosContext>(options =>
-              options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            #region general
+            services.AddDbContext<AnunciosContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<AnunciosContext>();
-
-            services.AddScoped<IAnuncioRepositorio, AnuncioRepositorio>();
+            services.AddScoped<IMediatorHandler, MediatorHandler>();
+            services.AddMediatR(typeof(Startup));
+            #endregion
 
             #region repos
-            services.AddScoped<IMediatorHandler, MediatorHandler>();
-
+            services.AddScoped<IAnuncioRepositorio, AnuncioRepositorio>();
             #endregion
+
             #region commands
+            services.AddScoped<IRequestHandler<AtivarAnuncioCommand, ValidationResult>, AnuncioCommandHandler>();
+            services.AddScoped<IRequestHandler<AtualizarAnuncioCommand, ValidationResult>, AnuncioCommandHandler>();
             services.AddScoped<IRequestHandler<CadastrarAnuncioCommand, ValidationResult>, AnuncioCommandHandler>();
+            services.AddScoped<IRequestHandler<DesativarAnuncioCommand, ValidationResult>, AnuncioCommandHandler>();
+            services.AddScoped<IRequestHandler<DeletarAnuncioCommand, ValidationResult>, AnuncioCommandHandler>();
             #endregion
 
-            services.AddMediatR(typeof(Startup));
             #endregion
 
             services.AddControllers();

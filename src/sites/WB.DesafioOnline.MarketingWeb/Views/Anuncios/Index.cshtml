@@ -62,8 +62,10 @@
                     @Html.DisplayFor(modelItem => item.Observacao)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Editar", new {  anuncioId=item.Id  }) |
-                    @Html.ActionLink("Delete", "Remover", new {  anuncioId=item.Id })
+
+
+                    @Html.ActionLink("Edit", "Editar", new {  anuncioId=item.Id },new { @class="btn btn-warning btn-sm" }) |
+                    @Html.ActionLink("Deletar", "Deletar", new {  anuncioId=item.Id },new { @class="btn btn-danger btn-sm" }) 
                 </td>
             </tr>
         }

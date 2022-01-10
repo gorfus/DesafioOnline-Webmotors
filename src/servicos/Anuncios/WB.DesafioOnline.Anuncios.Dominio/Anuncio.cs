@@ -24,13 +24,14 @@
         public int Ano { get; set; }
         public int Quilometragem { get; set; }
         public string Observacao { get; set; }
+        private bool Ativo { get; set; }
 
         public void Atualizar(string marca,
-                              string modelo,
-                              string versao,
-                              int ano,
-                              int quilometragem,
-                              string observacao)
+                      string modelo,
+                      string versao,
+                      int ano,
+                      int quilometragem,
+                      string observacao)
         {
             Marca = marca;
             Modelo = modelo;
@@ -38,6 +39,15 @@
             Ano = ano;
             Quilometragem = quilometragem;
             Observacao = observacao;
+        }
+
+        public void Ativar()
+        {
+            Ativo = true;
+        }
+        public void Desativar()
+        {
+            Ativo = false;
         }
 
     }
