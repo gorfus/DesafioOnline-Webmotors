@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using WB.DesafioOnline.Anuncios.Core;
 
-namespace WB.DesafioOnline.Anuncios.API.Commands
+namespace WB.DesafioOnline.Anuncios.Servicos.Commands
 {
     public class CadastrarAnuncioCommand : Command
     {

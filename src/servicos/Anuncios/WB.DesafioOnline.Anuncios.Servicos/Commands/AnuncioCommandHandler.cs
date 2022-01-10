@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using WB.DesafioOnline.Anuncios.Core;
 using WB.DesafioOnline.Anuncios.Dominio;
 
-namespace WB.DesafioOnline.Anuncios.API.Commands
+namespace WB.DesafioOnline.Anuncios.Servicos.Commands
 {
     public class AnuncioCommandHandler : RepositoryDMLHandler,
                                          IRequestHandler<CadastrarAnuncioCommand, ValidationResult>
@@ -21,7 +21,6 @@ namespace WB.DesafioOnline.Anuncios.API.Commands
         {
             if (!request.EhValido()) return request.ValidationResult;
 
-            // Mapear Pedido
             var anuncio = new Anuncio(marca: request.Marca,
                                       modelo: request.Modelo,
                                       versao: request.Versao,
@@ -29,7 +28,7 @@ namespace WB.DesafioOnline.Anuncios.API.Commands
                                       quilometragem: request.Quilometragem,
                                       observacao: request.Observacao);
 
-            _anuncioRepositorio.Adicionar(anuncio);
+            _anuncioRepositorio.Cadastrar(anuncio);
 
             return await PersistirDados(_anuncioRepositorio.UnitOfWork);
         }

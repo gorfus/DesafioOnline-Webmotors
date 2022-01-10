@@ -9,7 +9,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Cadastrar">
+        <form asp-action="Cadastrar" id="frm-cadastrar-anuncio">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
@@ -53,8 +53,6 @@
     </div>
 </div>
 
-
-
 @section Scripts {
     @{
     await Html.RenderPartialAsync("_ValidationScriptsPartial");
@@ -63,42 +61,52 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script type="text/javascript">
-    $('.select2-custom').select2({});
 
-       $('#MarcasDDL').select2({
-           placeholder: "Selecione a Marca",
-           ajax:
-           {
-               url: '/WebMotorsApi/MarcasData',
-               dataType: 'json',
-               data: function (params) { return  { search: params.term, type: 'public' };  }
-           }
-       });
+    $('#MarcasDDL').select2({
+        placeholder: "Selecione a Marca",
+        ajax:
+        {
+            url: '/WebMotorsApi/MarcasData',
+            dataType: 'json',
+            data: function (params) { return  { search: params.term, type: 'public' }}
+        }
+    });
 
 
-       $('#MarcasDDL').on("select2:selecting", function(e) {
-           $('#ModelosDLL').select2({
-               placeholder: "Selecione o Modelo",
-               ajax:
-               {
-                   url: '/WebMotorsApi/ModelosPorMarcaIdData?marcaId='+e.params.args.data.id,
-                   dataType: 'json',
-                   data: function (params) { return  { search: params.term, type: 'public' };  }
-               }
-           });
-       });
+    $('#MarcasDDL').on("select2:selecting", function(e) {
 
-       $('#ModelosDLL').on("select2:selecting", function(e) {
-           $('#VersoesDLL').select2({
-               placeholder: "Selecione a Versão",
-               ajax:
-               {
-                   url: '/WebMotorsApi/VersoesPorModeloData?modeloId='+e.params.args.data.id,
-                   dataType: 'json',
-                   data: function (params) { return  { search: params.term, type: 'public' };  }
-               }
-           });
-       });
+        $('#ModelosDLL').select2({
+
+            placeholder: "Selecione o Modelo",
+            ajax:
+            {
+                url: '/WebMotorsApi/ModelosPorMarcaIdData?marcaId='+e.params.args.data.id,
+                dataType: 'json',
+                data: function (params) { return  { search: params.term, type: 'public' };  }
+            }
+        });
+    });
+
+    $('#ModelosDLL').on("select2:selecting", function(e)
+    {
+        $('#VersoesDLL').select2({
+            placeholder: "Selecione a Versão",
+            ajax:
+            {
+                url: '/WebMotorsApi/VersoesPorModeloData?modeloId='+e.params.args.data.id,
+                dataType: 'json',
+                data: function (params) { return  { search: params.term, type: 'public' };  }
+            }
+        });
+    });
+
+    $( "#frm-cadastrar-anuncio" ).submit(function( event ) {
+      $("select#VersoesDLL option:selected").val($("select#VersoesDLL option:selected").text());
+      $("select#ModelosDLL option:selected").val($("select#ModelosDLL option:selected").text());
+      $("select#MarcasDDL option:selected").val($("select#MarcasDDL option:selected").text());
+     });
+
+
 
 </script>
 

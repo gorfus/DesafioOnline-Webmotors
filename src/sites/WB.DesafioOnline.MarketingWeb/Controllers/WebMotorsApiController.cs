@@ -51,7 +51,7 @@ namespace WB.DesafioOnline.MarketingWeb.Controllers
             var modelos = await _informacoesCarrosServicos.ModelosPorMarcaId(marcaId);
             return View(modelos);
         }
-        public async Task<IActionResult> ModelosPorMarcaIdData(int marcaId = 1)
+        public async Task<IActionResult> ModelosPorMarcaIdData(int marcaId, string marcaText)
         {
             var modelos = await _informacoesCarrosServicos.ModelosPorMarcaId(marcaId);
             var modelosSelect = (from m in modelos select new { id = m.ID, text = m.Name });

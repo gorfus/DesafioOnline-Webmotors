@@ -9,7 +9,7 @@ namespace WB.DesafioOnline.Anuncios.Dominio
     {
         DbConnection ObterConexao();
 
-        void Adicionar(Anuncio anuncio);
+        void Cadastrar(Anuncio anuncio);
         void Atualizar(Anuncio anuncio);
         void Remover(Anuncio anuncio);
 

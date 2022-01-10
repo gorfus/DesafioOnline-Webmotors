@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using WB.DesafioOnline.Anuncios.Dominio;
+using WB.DesafioOnline.Anuncios.Core;
 using WB.DesafioOnline.MarketingWeb.Models;
 
 namespace WB.DesafioOnline.MarketingWeb.Integracoes.Anuncios
@@ -11,13 +12,14 @@ namespace WB.DesafioOnline.MarketingWeb.Integracoes.Anuncios
     public interface IAnunciosServicos
     {
         Task<IEnumerable<AnuncioDTO>> Todos();
-        Task<IEnumerable<AnuncioDTO>> PorMarca(int marcaId);
-        Task<IEnumerable<AnuncioDTO>> PorModelo(int modeloId);
-        Task<IEnumerable<AnuncioDTO>> PorVersao();
+        Task<IEnumerable<AnuncioDTO>> PorMarca(string marca);
+        Task<IEnumerable<AnuncioDTO>> PorModelo(string modelo);
+        Task<IEnumerable<AnuncioDTO>> PorVersao(string versaO);
+        Task<AnuncioDTO> PorId(int anuncioId);
 
-        Task Cadastrar(AnuncioDTO anuncio);
-        Task Atualizar(AnuncioDTO anuncio);
-        Task Remover(int anuncioId);
+        Task<ResponseResult> Cadastrar(AnuncioDTO anuncio);
+        Task<ResponseResult> Atualizar(AnuncioDTO anuncio);
+        Task<ResponseResult> Remover(int anuncioId);
     }
 
     public class AnunciosServicos : IAnunciosServicos
@@ -31,47 +33,93 @@ namespace WB.DesafioOnline.MarketingWeb.Integracoes.Anuncios
             _httpClient = _clientFactory.CreateClient("anunciosapi");
         }
 
-        public async Task Atualizar(AnuncioDTO anuncio)
+        #region Integração Api Anuncios
+        public async Task<ResponseResult> Cadastrar(AnuncioDTO anuncio)
         {
-            throw new NotImplementedException();
+            var response = await _httpClient.PostAsync("", SetStringContent(anuncio));
+            var content = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+                return new ResponseResult();
+
+            return new ResponseResult
+            {
+                Title = "Erro HTTP",
+                Status = response.StatusCode.ToString(),
+                Message = content
+            };
+        }
+        public async Task<ResponseResult> Atualizar(AnuncioDTO anuncio)
+        {
+            var response = await _httpClient.PutAsync("", SetStringContent(anuncio));
+            var content = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+                return new ResponseResult();
+
+            return new ResponseResult
+            {
+                Title = "Erro HTTP",
+                Status = response.StatusCode.ToString(),
+                Message = content
+            };
+        }
+        public async Task<ResponseResult> Remover(int anuncioId)
+        {
+            var response = await _httpClient.DeleteAsync($"{anuncioId}");
+            var content = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+                return new ResponseResult();
+
+            return new ResponseResult
+            {
+                Title = "Erro HTTP",
+                Status = response.StatusCode.ToString(),
+                Message = content
+            };
         }
 
-        public async Task Cadastrar(AnuncioDTO anuncio)
+        #endregion
+
+        #region Integração Api Anunciosa
+        public async Task<AnuncioDTO> PorId(int anuncioId)
         {
-            throw new NotImplementedException();
+            var response = await _httpClient.GetAsync($"{anuncioId}");
+            return await DeserializarObjetoResponse<AnuncioDTO>(response);
         }
-
-        public async Task Remover(int anuncioId)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public async Task<IEnumerable<AnuncioDTO>> PorMarca(int marcaId)
-        {
-            var response = await _httpClient.GetAsync("Make");
-            return await JsonSerializer.DeserializeAsync<IEnumerable<AnuncioDTO>>(await response.Content.ReadAsStreamAsync());
-        }
-
-        public async Task<IEnumerable<AnuncioDTO>> PorModelo(int modeloId)
-        {
-            var response = await _httpClient.GetAsync("Make");
-            return await JsonSerializer.DeserializeAsync<IEnumerable<AnuncioDTO>>(await response.Content.ReadAsStreamAsync());
-        }
-
-        public async Task<IEnumerable<AnuncioDTO>> PorVersao()
-        {
-            var response = await _httpClient.GetAsync("Make");
-            return await JsonSerializer.DeserializeAsync<IEnumerable<AnuncioDTO>>(await response.Content.ReadAsStreamAsync());
-        }
-
-      
 
         public async Task<IEnumerable<AnuncioDTO>> Todos()
         {
-            var response = await _httpClient.GetAsync("Make");
-            return await JsonSerializer.DeserializeAsync<IEnumerable<AnuncioDTO>>(await response.Content.ReadAsStreamAsync());
+            var response = await _httpClient.GetAsync("");
+            return await DeserializarObjetoResponse<IEnumerable<AnuncioDTO>>(response);
         }
 
+        public async Task<IEnumerable<AnuncioDTO>> PorMarca(string marca)
+        {
+            var response = await _httpClient.GetAsync($"marca/{marca}");
+            return await DeserializarObjetoResponse<IEnumerable<AnuncioDTO>>(response);
+        }
+
+        public async Task<IEnumerable<AnuncioDTO>> PorModelo(string modelo)
+        {
+            var response = await _httpClient.GetAsync($"modelo/{modelo}");
+            return await DeserializarObjetoResponse<IEnumerable<AnuncioDTO>>(response);
+        }
+
+        public async Task<IEnumerable<AnuncioDTO>> PorVersao(string versao)
+        {
+            var response = await _httpClient.GetAsync($"versao/{versao}");
+            return await DeserializarObjetoResponse<IEnumerable<AnuncioDTO>>(response);
+        }
+        #endregion
+
+        protected StringContent SetStringContent(object dado) => new StringContent(JsonSerializer.Serialize(dado), Encoding.UTF8, "application/json");
+
+        protected async Task<T> DeserializarObjetoResponse<T>(HttpResponseMessage responseMessage)
+        {
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            return JsonSerializer.Deserialize<T>(await responseMessage.Content.ReadAsStringAsync(), options);
+        }
     }
 }

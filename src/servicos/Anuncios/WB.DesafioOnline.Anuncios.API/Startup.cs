@@ -1,3 +1,5 @@
+using FluentValidation.Results;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,7 +14,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WB.DesafioOnline.Anuncios.Core;
 using WB.DesafioOnline.Anuncios.Data;
+using WB.DesafioOnline.Anuncios.Data.Repositorios;
+using WB.DesafioOnline.Anuncios.Dominio;
+using WB.DesafioOnline.Anuncios.Servicos.Commands;
 
 namespace WB.DesafioOnline.Anuncios.API
 {
@@ -32,8 +38,18 @@ namespace WB.DesafioOnline.Anuncios.API
               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<AnunciosContext>();
-            //services.AddHostedService<MonitorMoeda>();
-            //services.AddMediatR(typeof(Startup));
+
+            services.AddScoped<IAnuncioRepositorio, AnuncioRepositorio>();
+
+            #region repos
+            services.AddScoped<IMediatorHandler, MediatorHandler>();
+
+            #endregion
+            #region commands
+            services.AddScoped<IRequestHandler<CadastrarAnuncioCommand, ValidationResult>, AnuncioCommandHandler>();
+            #endregion
+
+            services.AddMediatR(typeof(Startup));
             #endregion
 
             services.AddControllers();

@@ -22,7 +22,7 @@ namespace WB.DesafioOnline.Anuncios.Data.Repositorios
 
         public DbConnection ObterConexao() => _context.Database.GetDbConnection();
 
-        public void Adicionar(Anuncio anuncio)
+        public void Cadastrar(Anuncio anuncio)
         {
             _context.Anuncios.Add(anuncio);
         }

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
-using WB.DesafioOnline.Anuncios.Dominio;
 using WB.DesafioOnline.MarketingWeb.Integracoes.Anuncios;
 using WB.DesafioOnline.MarketingWeb.Models;
 
@@ -35,36 +34,42 @@ namespace WB.DesafioOnline.MarketingWeb.Controllers
             try
             {
                 await _anunciosServicos.Cadastrar(anuncio);
-                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
                 throw;
             }
+
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
-        public IActionResult Editar(int anuncioId)
+        public async Task<IActionResult> Editar(int anuncioId)
         {
-            var anuncio = _anunciosServicosLocal.PorId(anuncioId);
-            return View(anuncio);
+            return View(await _anunciosServicos.PorId(anuncioId));
         }
 
-        [HttpPut]
-        public IActionResult Editar(Anuncio anuncio)
+        [HttpPost]
+        public async Task<IActionResult> Editar(AnuncioDTO anuncio)
         {
-            _anunciosServicosLocal.Atualizar(anuncio);
+            try
+            {
+                await _anunciosServicos.Atualizar(anuncio);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
             return View("Index");
         }
 
-        [HttpDelete]
+        [HttpPost]
         public async Task<IActionResult> Excluir(int anuncioId)
         {
             if (anuncioId == 0)
                 throw new Exception("Necesário enviar o id do anuncio para exclusão");
 
-            var anuncio = await _anunciosServicosLocal.PorId(anuncioId);
-            await _anunciosServicosLocal.Remover(anuncio);
+            await _anunciosServicos.Remover(anuncioId);
 
             return View("Index");
         }

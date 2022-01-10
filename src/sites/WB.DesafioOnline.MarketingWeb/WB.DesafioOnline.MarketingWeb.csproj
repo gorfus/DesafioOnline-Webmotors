@@ -11,8 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\servicos\Anuncios\WB.DesafioOnline.Anuncios.Data\WB.DesafioOnline.Anuncios.Data.csproj" />
-    <ProjectReference Include="..\..\servicos\Anuncios\WB.DesafioOnline.Anuncios.Dominio\WB.DesafioOnline.Anuncios.Dominio.csproj" />
+    <ProjectReference Include="..\..\WB.DesafioOnline.Anuncios.Core\WB.DesafioOnline.Anuncios.Core.csproj" />
   </ItemGroup>
 
 </Project>

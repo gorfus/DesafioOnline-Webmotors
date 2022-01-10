@@ -4,4 +4,15 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+	<ItemGroup>
+		<PackageReference Include="MediatR" Version="10.0.0" />
+		<PackageReference Include="FluentValidation" Version="8.6.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\..\WB.DesafioOnline.Anuncios.Core\WB.DesafioOnline.Anuncios.Core.csproj" />
+	  <ProjectReference Include="..\WB.DesafioOnline.Anuncios.Dominio\WB.DesafioOnline.Anuncios.Dominio.csproj" />
+	</ItemGroup>
+
+	
 </Project>
