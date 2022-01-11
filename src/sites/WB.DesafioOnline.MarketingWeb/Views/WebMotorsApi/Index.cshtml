@@ -1,12 +1,8 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-
-<a class="btn btn-info" asp-controller="WebMotorsApi" asp-action="Marcas">Marcas</a>
-<a class="btn btn-info" asp-controller="WebMotorsApi" asp-action="Modelos">Modelos</a>
-<a class="btn btn-info" asp-controller="WebMotorsApi" asp-action="Versoes">Versões</a>
-<a class="btn btn-info" asp-controller="WebMotorsApi" asp-action="Veiculos">Veículos</a>
-
-
+﻿<div class="row">
+    <div class="col-12">
+        <a class="btn btn-info" asp-controller="WebMotorsApi" asp-action="TodosVeiculos" disable>Marcas</a>
+        <a class="btn btn-info" asp-controller="WebMotorsApi" asp-action="Modelos" disabled>Modelos</a>
+        <a class="btn btn-info" asp-controller="WebMotorsApi" asp-action="Versoes">Versões</a>
+        <a class="btn btn-info" asp-controller="WebMotorsApi" asp-action="TodosVeiculos">Veículos</a>
+    </div>
+</div>

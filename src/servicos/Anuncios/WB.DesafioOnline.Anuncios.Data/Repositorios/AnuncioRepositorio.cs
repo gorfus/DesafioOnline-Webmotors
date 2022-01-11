@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Dapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -40,7 +41,7 @@ namespace WB.DesafioOnline.Anuncios.Data.Repositorios
         public async Task<Anuncio> PorId(int anuncioId)
         {
             return await _context.Anuncios
-                                 .FirstOrDefaultAsync(a => a.Id == anuncioId);
+                                 .FirstOrDefaultAsync(a => a.AnuncioId == anuncioId);
         }
 
         public async Task<IEnumerable<Anuncio>> PorMarca(string marca)
@@ -70,5 +71,48 @@ namespace WB.DesafioOnline.Anuncios.Data.Repositorios
                                  .ToListAsync();
         }
 
+        public async Task<GridPaginado<Anuncio>> Pesquisar(string marca,
+                                                           string modelo,
+                                                           string versao,
+                                                           int start = 0,
+                                                           int length = 15)
+        {
+            var termos = "";
+
+            if (!string.IsNullOrWhiteSpace(marca))
+                termos += $" AND marca = '{marca}' ";
+
+            if (!string.IsNullOrWhiteSpace(modelo))
+                termos += $" AND modelo = '{modelo}' ";
+
+            if (!string.IsNullOrWhiteSpace(versao))
+                termos += $" AND versao = '{versao}' ";
+
+            var sql = @$"SELECT AnuncioId, Marca, Modelo,Versao,Quilometragem,Observacao  FROM tb_AnuncioWebmotors 
+                      WHERE 1 = 1 {termos} ;
+                      --OFFSET {length} ROWS 
+                      --FETCH NEXT {start} ROWS ONLY ;
+                      SELECT COUNT(AnuncioId) FROM tb_AnuncioWebmotors
+                      WHERE 1 = 1 {termos};";
+            try
+            {
+                var multi = await _context.Database.GetDbConnection().QueryMultipleAsync(sql);
+
+                var anuncios = multi.Read<Anuncio>();
+                var total = multi.Read<int>().FirstOrDefault();
+
+                return new GridPaginado<Anuncio>()
+                {
+                    Lista = anuncios,
+                    TotalRegistros = total,
+                    Pagina = start,
+                    Tamano = length
+                };
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }

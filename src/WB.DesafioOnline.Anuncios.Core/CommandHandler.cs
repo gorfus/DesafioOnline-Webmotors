@@ -19,7 +19,8 @@ namespace WB.DesafioOnline.Anuncios.Core
 
         public async Task<ValidationResult> PersistirDados(IUnitOfWork uow)
         {
-            if (!await uow.Commit()) AdicionarErro("Houve um erro ao persistir os dados");
+            if (!await uow.Commit()) 
+                AdicionarErro("Ocorreu um erro na requisição ao banco de dados");
 
             return ValidationResult;
         }
