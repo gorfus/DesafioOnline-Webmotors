@@ -1,73 +1,104 @@
 ﻿@model IEnumerable<WB.DesafioOnline.MarketingWeb.Models.AnuncioDTO>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Anuncios";
 }
 
-<h1>Index</h1>
+<div class="card">
+    <div class="card-body">
+        <form asp-action="Pesquisar" method="get" id="frm-pesquisar-anuncios">
+            <div class="row">
+                <div class="form-group col-3">
+                    <label class="control-label">Marca</label>
+                    <select class="form-control select2-custom" id="MarcasDDL" name="marca"></select>
+                </div>
+                <div class="form-group col-3">
+                    <label class="control-label">Modelo</label>
+                    <select class="form-control select2-custom" id="ModelosDLL" name="modelo"></select>
+                </div>
+                <div class="col-4">
+                    <label class="control-label">Versão</label>
+                    <select class="form-control select2-custom" id="VersoesDLL" name="versao"></select>
+                </div>
+                <div class="form-group  col-2 mt-4">
+                    <input type="submit" value="Pesquisar" class="btn btn-outline-danger" />
+                </div>
+            </div>
 
-<p>
-    <a asp-action="Cadastrar">Cadastrar</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Marca)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Modelo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Versao)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ano)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Quilometragem)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Observacao)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Marca)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Modelo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Versao)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Ano)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Quilometragem)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Observacao)
-                </td>
-                <td>
+        </form>
+    </div>
+</div>
+<div class="col-12">
+    <div class="card">
+        <div class="card-body">
+            <h3 class="float-left">Anúncios</h3>
+            <a href="/Anuncios/Cadastrar" class="btn btn-outline-info mb-2 float-right">Cadastrar</a>
+            <div clas="row">
+                <div clas="col-12">
 
-
-                    @Html.ActionLink("Edit", "Editar", new {  anuncioId=item.Id },new { @class="btn btn-warning btn-sm" }) |
-                    @Html.ActionLink("Deletar", "Deletar", new {  anuncioId=item.Id },new { @class="btn btn-danger btn-sm" }) 
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.AnuncioId)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Marca)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Modelo)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Versao)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Ano)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Quilometragem)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Observacao)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.AnuncioId)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Marca)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Modelo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Versao)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Ano)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Quilometragem)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Observacao)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Atualizar", "Editar", new {  anuncioId=item.AnuncioId },new { @class="btn btn-warning btn-sm" })
+                                        @Html.ActionLink("Deletar", "Deletar", new {  anuncioId=item.AnuncioId },new { @class="btn btn-danger btn-sm" })
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ 

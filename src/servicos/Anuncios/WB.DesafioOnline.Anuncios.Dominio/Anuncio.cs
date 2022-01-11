@@ -2,6 +2,10 @@
 {
     public class Anuncio
     {
+        public Anuncio()
+        {
+
+        }
         public Anuncio(string marca,
                         string modelo,
                         string versao,
@@ -17,7 +21,7 @@
             Observacao = observacao;
         }
 
-        public int Id { get; set; }
+        public int AnuncioId { get; set; }
         public string Marca { get; set; }
         public string Modelo { get; set; }
         public string Versao { get; set; }

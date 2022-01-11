@@ -15,6 +15,11 @@ namespace WB.DesafioOnline.Anuncios.Dominio
 
         Task<Anuncio> PorId(int anuncioId);
         Task<IEnumerable<Anuncio>> Todos();
+        Task<GridPaginado<Anuncio>> Pesquisar(string marca,
+                                            string modelo,
+                                            string versao,
+                                            int start,
+                                            int length);
         Task<IEnumerable<Anuncio>> PorMarca(string marca);
         Task<IEnumerable<Anuncio>> PorModelo(string modelo);
         Task<IEnumerable<Anuncio>> PorVersao(string versao);

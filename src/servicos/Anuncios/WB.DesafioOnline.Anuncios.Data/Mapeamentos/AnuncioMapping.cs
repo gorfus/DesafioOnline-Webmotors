@@ -8,7 +8,7 @@ namespace WB.DesafioOnline.Anuncios.Data.Mapeamentos
     {
         public void Configure(EntityTypeBuilder<Anuncio> builder)
         {
-            builder.HasKey(c => c.Id);
+            builder.HasKey(c => c.AnuncioId);
 
             builder.Property(c => c.Marca)
                 .IsRequired()

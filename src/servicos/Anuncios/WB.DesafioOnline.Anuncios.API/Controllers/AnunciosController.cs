@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using WB.DesafioOnline.Anuncios.Core;
 using WB.DesafioOnline.Anuncios.Dominio;
 using WB.DesafioOnline.Anuncios.Servicos.Commands;
+using WB.DesafioOnline.Anuncios.Servicos.DTOs;
 
 namespace WB.DesafioOnline.Anuncios.API.Controllers
 {
@@ -45,15 +46,16 @@ namespace WB.DesafioOnline.Anuncios.API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Atualizar(AtualizarAnuncioCommand request)
+        public async Task<IActionResult> Atualizar([FromBody]AtualizarAnuncioCommand request)
         {
             return Ok(await _mediator.EnviarComando(request));
         }
 
         [HttpDelete("{anuncioId}")]
-        public async Task<IActionResult> Deletar(DeletarAnuncioCommand request)
+        public async Task<IActionResult> Deletar(int anuncioId)
         {
-            return Ok(await _mediator.EnviarComando(request));
+ 
+            return Ok(await _mediator.EnviarComando(new DeletarAnuncioCommand { AnuncioId = anuncioId }));
         }
 
 
@@ -63,13 +65,13 @@ namespace WB.DesafioOnline.Anuncios.API.Controllers
             return Ok(await _anuncioRepositorio.PorId(anuncioId));
         }
 
-        [HttpPut("Ativar/{anuncioId}")]
+        [HttpPut("ativar/{anuncioId}")]
         public async Task<IActionResult> Ativar(AtivarAnuncioCommand request)
         {
             return Ok(await _mediator.EnviarComando(request));
         }
 
-        [HttpPut("Destivar/{anuncioId}")]
+        [HttpPut("destivar/{anuncioId}")]
         public async Task<IActionResult> Desativar(DesativarAnuncioCommand request)
         {
             return Ok(await _mediator.EnviarComando(request));
@@ -78,8 +80,15 @@ namespace WB.DesafioOnline.Anuncios.API.Controllers
         [HttpGet]
         public async Task<IActionResult> Todos()
         {
-            return Ok(await _anuncioRepositorio.Todos());
+            var result = await _anuncioRepositorio.Todos();
+            return Ok(result);
         }
 
+        [HttpPost("filtrar")]
+        public async Task<IActionResult> Pesquisar(AnuncioFiltroDTO filtro)
+        {
+            var result = await _anuncioRepositorio.Pesquisar(filtro.Marca, filtro.Modelo, filtro.Versao, 1, 15);
+            return Ok(result);
+        }
     }
 }
