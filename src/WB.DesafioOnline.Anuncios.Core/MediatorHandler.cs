@@ -22,5 +22,11 @@ namespace WB.DesafioOnline.Anuncios.Core
         //{
         //    await _mediator.Publish(evento);
         //}
+
+
+        //public async Task PublicarQuery<T>(T query) where T : Query
+        //{
+        //    await _mediator.Publish(query);
+        //}
     }
 }

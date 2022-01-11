@@ -28,37 +28,27 @@ namespace WB.DesafioOnline.MarketingWeb.Controllers
         public async Task<IActionResult> Marcas(string search = "")
         {
             var marcas = await _informacoesCarrosServicos.TodasMarcas();
-
-            //if (!string.IsNullOrWhiteSpace(search))
-            //   marcas.ToList().RemoveAll(m => m.Name == search);
-
             return View(marcas);
         }
         public async Task<IActionResult> MarcasData(string search = "")
         {
             var marcas = await _informacoesCarrosServicos.TodasMarcas();
-
-            //if (!string.IsNullOrWhiteSpace(search))
-            //   marcas.ToList().RemoveAll(m => m.Name == search);
-
             var marcasSelect = (from m in marcas select new { id = m.ID, text = m.Name });
 
             return Ok(new { results = marcasSelect });
         }
 
-        public async Task<IActionResult> ModelosPorMarcaId(int marcaId = 1)
+        public async Task<IActionResult> ModelosPorMarca(int marcaId = 1)
         {
             var modelos = await _informacoesCarrosServicos.ModelosPorMarcaId(marcaId);
             return View(modelos);
         }
-        public async Task<IActionResult> ModelosPorMarcaIdData(int marcaId, string marcaText)
+        public async Task<IActionResult> ModelosPorMarcaData(int marcaId, string marcaText)
         {
             var modelos = await _informacoesCarrosServicos.ModelosPorMarcaId(marcaId);
             var modelosSelect = (from m in modelos select new { id = m.ID, text = m.Name });
-
             return Ok(new { results = modelosSelect });
         }
-
 
         public async Task<IActionResult> VersoesPorModelo(int modeloId = 1)
         {
@@ -69,10 +59,8 @@ namespace WB.DesafioOnline.MarketingWeb.Controllers
         {
             var versoes = await _informacoesCarrosServicos.VersoesPorModelo(modeloId);
             var versoesSelect = (from m in versoes select new { id = m.ID, text = m.Name });
-
             return Ok(new { results = versoesSelect });
         }
-
 
         public async Task<IActionResult> TodosVeiculos()
         {

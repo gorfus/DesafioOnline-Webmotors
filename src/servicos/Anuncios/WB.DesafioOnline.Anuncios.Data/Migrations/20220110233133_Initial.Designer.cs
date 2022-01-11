@@ -9,8 +9,8 @@ using WB.DesafioOnline.Anuncios.Data;
 namespace WB.DesafioOnline.Anuncios.Data.Migrations
 {
     [DbContext(typeof(AnunciosContext))]
-    [Migration("20220107061717_initial")]
-    partial class initial
+    [Migration("20220110233133_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -22,7 +22,7 @@ namespace WB.DesafioOnline.Anuncios.Data.Migrations
 
             modelBuilder.Entity("WB.DesafioOnline.Anuncios.Dominio.Anuncio", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("AnuncioId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -49,7 +49,7 @@ namespace WB.DesafioOnline.Anuncios.Data.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(45)");
 
-                    b.HasKey("Id");
+                    b.HasKey("AnuncioId");
 
                     b.ToTable("tb_AnuncioWebmotors");
                 });

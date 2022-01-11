@@ -12,6 +12,7 @@ namespace WB.DesafioOnline.MarketingWeb.Integracoes.Anuncios
     public interface IAnunciosServicos
     {
         Task<IEnumerable<AnuncioDTO>> Todos();
+        Task<GridPaginado<AnuncioDTO>> Pesquisar(AnuncioFiltroDTO filtro);
         Task<IEnumerable<AnuncioDTO>> PorMarca(string marca);
         Task<IEnumerable<AnuncioDTO>> PorModelo(string modelo);
         Task<IEnumerable<AnuncioDTO>> PorVersao(string versaO);
@@ -33,11 +34,9 @@ namespace WB.DesafioOnline.MarketingWeb.Integracoes.Anuncios
             _httpClient = _clientFactory.CreateClient("anunciosapi");
         }
 
-        #region Integração Api Anuncios
         public async Task<ResponseResult> Cadastrar(AnuncioDTO anuncio)
         {
             var response = await _httpClient.PostAsync("", SetStringContent(anuncio));
-            var content = await response.Content.ReadAsStringAsync();
 
             if (response.IsSuccessStatusCode)
                 return new ResponseResult();
@@ -46,13 +45,12 @@ namespace WB.DesafioOnline.MarketingWeb.Integracoes.Anuncios
             {
                 Title = "Erro HTTP",
                 Status = response.StatusCode.ToString(),
-                Message = content
+                Message = await response.Content.ReadAsStringAsync()
             };
         }
         public async Task<ResponseResult> Atualizar(AnuncioDTO anuncio)
         {
             var response = await _httpClient.PutAsync("", SetStringContent(anuncio));
-            var content = await response.Content.ReadAsStringAsync();
 
             if (response.IsSuccessStatusCode)
                 return new ResponseResult();
@@ -61,13 +59,12 @@ namespace WB.DesafioOnline.MarketingWeb.Integracoes.Anuncios
             {
                 Title = "Erro HTTP",
                 Status = response.StatusCode.ToString(),
-                Message = content
+                Message = await response.Content.ReadAsStringAsync()
             };
         }
         public async Task<ResponseResult> Deletar(int anuncioId)
         {
             var response = await _httpClient.DeleteAsync($"{anuncioId}");
-            var content = await response.Content.ReadAsStringAsync();
 
             if (response.IsSuccessStatusCode)
                 return new ResponseResult();
@@ -76,13 +73,10 @@ namespace WB.DesafioOnline.MarketingWeb.Integracoes.Anuncios
             {
                 Title = "Erro HTTP",
                 Status = response.StatusCode.ToString(),
-                Message = content
+                Message = await response.Content.ReadAsStringAsync()
             };
         }
 
-        #endregion
-
-        #region Integração Api Anunciosa
         public async Task<AnuncioDTO> PorId(int anuncioId)
         {
             var response = await _httpClient.GetAsync($"{anuncioId}");
@@ -93,6 +87,12 @@ namespace WB.DesafioOnline.MarketingWeb.Integracoes.Anuncios
         {
             var response = await _httpClient.GetAsync("");
             return await DeserializarObjetoResponse<IEnumerable<AnuncioDTO>>(response);
+        }
+
+        public async Task<GridPaginado<AnuncioDTO>> Pesquisar(AnuncioFiltroDTO filtro)
+        {
+            var response = await _httpClient.PostAsync("filtrar", SetStringContent(filtro));
+            return await DeserializarObjetoResponse<GridPaginado<AnuncioDTO>>(response);
         }
 
         public async Task<IEnumerable<AnuncioDTO>> PorMarca(string marca)
@@ -112,8 +112,8 @@ namespace WB.DesafioOnline.MarketingWeb.Integracoes.Anuncios
             var response = await _httpClient.GetAsync($"versao/{versao}");
             return await DeserializarObjetoResponse<IEnumerable<AnuncioDTO>>(response);
         }
-        #endregion
 
+        #region Uteis
         protected StringContent SetStringContent(object dado) => new StringContent(JsonSerializer.Serialize(dado), Encoding.UTF8, "application/json");
 
         protected async Task<T> DeserializarObjetoResponse<T>(HttpResponseMessage responseMessage)
@@ -121,5 +121,12 @@ namespace WB.DesafioOnline.MarketingWeb.Integracoes.Anuncios
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
             return JsonSerializer.Deserialize<T>(await responseMessage.Content.ReadAsStringAsync(), options);
         }
+        #endregion
+
+    }
+
+    public class EnviarParaExclusao
+    {
+        public int AnuncioId { get; set; }
     }
 }

@@ -63,7 +63,6 @@ namespace WB.DesafioOnline.MarketingWeb.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet]
         public async Task<IActionResult> Deletar(int anuncioId)
         {
             if (anuncioId == 0)
@@ -73,5 +72,17 @@ namespace WB.DesafioOnline.MarketingWeb.Controllers
 
             return RedirectToAction("Index");
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Pesquisar(AnuncioFiltroDTO filtro)
+        {
+            var pageResult = await _anunciosServicos.Pesquisar(filtro);
+            return View("Index", pageResult.Lista);
+        }
+
+       
     }
+
+   
 }

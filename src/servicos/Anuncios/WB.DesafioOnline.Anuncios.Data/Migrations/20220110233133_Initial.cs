@@ -2,7 +2,7 @@
 
 namespace WB.DesafioOnline.Anuncios.Data.Migrations
 {
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -10,7 +10,7 @@ namespace WB.DesafioOnline.Anuncios.Data.Migrations
                 name: "tb_AnuncioWebmotors",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    AnuncioId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Marca = table.Column<string>(type: "varchar(45)", nullable: false),
                     Modelo = table.Column<string>(type: "varchar(45)", nullable: false),
@@ -21,7 +21,7 @@ namespace WB.DesafioOnline.Anuncios.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_tb_AnuncioWebmotors", x => x.Id);
+                    table.PrimaryKey("PK_tb_AnuncioWebmotors", x => x.AnuncioId);
                 });
         }
 

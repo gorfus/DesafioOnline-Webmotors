@@ -20,7 +20,7 @@ namespace WB.DesafioOnline.Anuncios.Data.Migrations
 
             modelBuilder.Entity("WB.DesafioOnline.Anuncios.Dominio.Anuncio", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("AnuncioId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -47,7 +47,7 @@ namespace WB.DesafioOnline.Anuncios.Data.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(45)");
 
-                    b.HasKey("Id");
+                    b.HasKey("AnuncioId");
 
                     b.ToTable("tb_AnuncioWebmotors");
                 });

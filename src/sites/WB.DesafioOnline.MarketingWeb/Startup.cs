@@ -3,7 +3,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Polly;
+using Polly.Extensions.Http;
+using Polly.Retry;
 using System;
+using System.Net.Http;
+using WB.DesafioOnline.Anuncios.Core;
 using WB.DesafioOnline.MarketingWeb.Integracoes.Anuncios;
 using WB.DesafioOnline.MarketingWeb.Integracoes.OnlineChallenge;
 
@@ -24,23 +29,16 @@ namespace WB.DesafioOnline.MarketingWeb
 
             services.AddScoped<IAnunciosServicos, AnunciosServicos>();
 
-            // API local:para fazer o CRUD acessando os Anuncios pela API 
+            // API Webmotors: acessando os dados de marcas,modelos,versoes e veiculos da Webmotors
             services.AddHttpClient<IInformacoesCarrosServicos, InformacoesCarrosServicos>("onlinechallenge", c =>
             {
                 c.BaseAddress = new Uri("https://desafioonline.webmotors.com.br/api/onlinechallenge/");
-            });
-
-            // API Webmotors: acessando os dados de marcas,modelos,versoes e veiculos da Webmotors
+            }).AddPolicyHandler(PollyExtensions.WaitRetry()); ;
+            // API local:para fazer o CRUD acessando os Anuncios pela API 
             services.AddHttpClient<IAnunciosServicos, AnunciosServicos>("anunciosapi", c =>
             {
                 c.BaseAddress = new Uri("https://localhost:44378/api/Anuncios/");
-            });
-
-            //services.AddHttpClient<IInformacoesCarrosServicos, InformacoesCarrosServicos>()
-            //.AddPolicyHandler(PollyExtensions.EsperarTentar())
-            //.AddTransientHttpErrorPolicy(
-            //    p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)))
-            ;
+            }).AddPolicyHandler(PollyExtensions.WaitRetry());
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -69,4 +67,27 @@ namespace WB.DesafioOnline.MarketingWeb
             });
         }
     }
+
+    public static class PollyExtensions
+    {
+        public static AsyncRetryPolicy<HttpResponseMessage> WaitRetry()
+        {
+            var retry = HttpPolicyExtensions
+                .HandleTransientHttpError()
+                .WaitAndRetryAsync(new[]
+                {
+                    TimeSpan.FromSeconds(1),
+                    TimeSpan.FromSeconds(3),
+                    TimeSpan.FromSeconds(7),
+                }, (outcome, timespan, retryCount, context) =>
+                {
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.WriteLine($"Tentantiva num: {retryCount}!");
+                    Console.ForegroundColor = ConsoleColor.White;
+                });
+
+            return retry;
+        }
+    }
+
 }

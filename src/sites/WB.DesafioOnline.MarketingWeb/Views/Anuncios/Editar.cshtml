@@ -1,62 +1,61 @@
 ﻿@model WB.DesafioOnline.MarketingWeb.Models.AnuncioDTO
 
 @{
-    ViewData["Title"] = "Editar";
+    ViewData["Title"] = "Atualizar anúncio";
 }
 
-<h1>Editar</h1>
+<h1>Atualizar anúncio</h1>
 
-<h4>Anuncio</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="card">
+    <div class="card-body">
         <form asp-action="Editar">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label class="control-label">Id</label>
-                <input asp-for="Id" class="form-control" disabled/>
-            </div>
-            <div class="form-group">
-                <label asp-for="Marca" class="control-label"></label>
-                <input asp-for="Marca" class="form-control" />
-                <span asp-validation-for="Marca" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Modelo" class="control-label"></label>
-                <input asp-for="Modelo" class="form-control" />
-                <span asp-validation-for="Modelo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Versao" class="control-label"></label>
-                <input asp-for="Versao" class="form-control" />
-                <span asp-validation-for="Versao" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Ano" class="control-label"></label>
-                <input asp-for="Ano" class="form-control" />
-                <span asp-validation-for="Ano" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Quilometragem" class="control-label"></label>
-                <input asp-for="Quilometragem" class="form-control" />
-                <span asp-validation-for="Quilometragem" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Observacao" class="control-label"></label>
-                <input asp-for="Observacao" class="form-control" />
-                <span asp-validation-for="Observacao" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="row">
+                <div class="form-group col-1">
+                    <label class="control-label">Id</label>
+                    <input asp-for="AnuncioId" class="form-control" />
+                </div>
+                <div class="form-group col-3">
+                    <label asp-for="Marca" class="control-label"></label>
+                    <input asp-for="Marca" class="form-control" />
+                    <span asp-validation-for="Marca" class="text-danger"></span>
+                </div>
+                <div class="form-group col-4">
+                    <label asp-for="Modelo" class="control-label"></label>
+                    <input asp-for="Modelo" class="form-control" />
+                    <span asp-validation-for="Modelo" class="text-danger"></span>
+                </div>
+                <div class="form-group col-4">
+                    <label asp-for="Versao" class="control-label"></label>
+                    <input asp-for="Versao" class="form-control" />
+                    <span asp-validation-for="Versao" class="text-danger"></span>
+                </div>
+                <div class="form-group col-2">
+                    <label asp-for="Ano" class="control-label"></label>
+                    <input asp-for="Ano" class="form-control" />
+                    <span asp-validation-for="Ano" class="text-danger"></span>
+                </div>
+                <div class="form-group col-2">
+                    <label asp-for="Quilometragem" class="control-label"></label>
+                    <input asp-for="Quilometragem" class="form-control" />
+                    <span asp-validation-for="Quilometragem" class="text-danger"></span>
+                </div>
+                <div class="form-group col-12">
+                    <label asp-for="Observacao" class="control-label"></label>
+                    <input asp-for="Observacao" class="form-control" />
+                    <span asp-validation-for="Observacao" class="text-danger"></span>
+                </div>
+                <div class="form-group col-12">
+                    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                    <input type="submit" value="Atualizar" class="btn btn-primary" />
+                </div>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
 }
